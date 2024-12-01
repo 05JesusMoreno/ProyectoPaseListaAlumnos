@@ -35,7 +35,7 @@ const PaseLista = () => {
       setError("Contenedor del escáner no encontrado.");
       return;
     }
-
+  
     try {
       const html5QrCode = new Html5Qrcode(scannerRef.current.id);
       await html5QrCode.start(
@@ -44,10 +44,30 @@ const PaseLista = () => {
         (decodedText) => {
           const cleanedText = decodedText.trim(); // Limpia el texto escaneado
           console.log("Texto escaneado:", cleanedText); // Registro de depuración
+  
+          // Verificar si el código escaneado es un enlace
+          let estudiante = null;
+  
+          // Buscar por código de matrícula si es un número
           if (estudiantes[cleanedText]) {
-            const estudiante = estudiantes[cleanedText];
+            estudiante = estudiantes[cleanedText];
+          } else {
+            // Buscar por enlace si es una URL
+            for (let matricula in estudiantes) {
+              if (
+                typeof estudiantes[matricula] === "object" &&
+                estudiantes[matricula].enlace === cleanedText
+              ) {
+                estudiante = estudiantes[matricula];
+                break;
+              }
+            }
+          }
+  
+          if (estudiante) {
+            console.log("Estudiante encontrado:", estudiante); // Registro de depuración
             setScannedCode(cleanedText);
-
+  
             if (typeof estudiante === "object") {
               setStudentData(
                 <div>
@@ -67,7 +87,7 @@ const PaseLista = () => {
             } else {
               setStudentData(<p>{estudiante}</p>);
             }
-
+  
             setScannedData((prevData) => [
               ...prevData,
               {
@@ -79,7 +99,10 @@ const PaseLista = () => {
                 fecha: new Date().toLocaleDateString(),
               },
             ]);
+  
+            setError(null); // Limpiar errores si todo fue bien
           } else {
+            console.warn("Código no encontrado en la lista:", cleanedText);
             setError(`Código escaneado (${cleanedText}) no encontrado.`);
             setStudentData(<p>Estudiante no encontrado</p>);
           }
@@ -92,6 +115,7 @@ const PaseLista = () => {
       setError("Error al iniciar el escáner.");
     }
   };
+  
 
   const stopScan = async () => {
     try {
@@ -158,8 +182,8 @@ const PaseLista = () => {
   };
 
   return (
-<div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">
-  <header className="text-2xl font-bold text-gray-800 mt-12">Pase Lista</header>
+<div className="flex flex-col items-center min-h-screen bg-gray-50 p-4">
+  <header className="text-3xl font-bold text-gray-800 mt-12">Pase Lista</header>
   <main className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg mt-8 text-center">
     <p className="text-lg text-gray-600 mb-6">Escanear código</p>
 
@@ -184,7 +208,7 @@ const PaseLista = () => {
       Descargar Asistencia
     </button>
 
-    <button className="w-full bg-indigo-500 text-white font-semibold py-3 rounded-lg hover:bg-indigo-600 transition duration-300" onClick={inicio}>
+    <button onClick={inicio} className="w-full bg-indigo-500 text-white font-semibold py-3 rounded-lg hover:bg-indigo-600 transition duration-300">
       Inicio
     </button>
   </main>
