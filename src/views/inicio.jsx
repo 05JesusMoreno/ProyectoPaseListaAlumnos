@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { BarcodeScanner } from "@capacitor-community/barcode-scanner";
+import React, { useRef, useState } from "react";
+import { Html5Qrcode } from "html5-qrcode";
 import ExcelJS from "exceljs";
 import { useNavigate } from "react-router-dom";
 
@@ -8,6 +8,7 @@ const PaseLista = () => {
   const [studentData, setStudentData] = useState(null);
   const [error, setError] = useState(null);
   const [scannedData, setScannedData] = useState([]);
+  const scannerRef = useRef(null); // Referencia para el contenedor del escáner
   const navigate = useNavigate();
 
   const estudiantes = {
@@ -30,49 +31,74 @@ const PaseLista = () => {
   };
 
   const startScan = async () => {
+    if (!scannerRef.current) {
+      setError("Contenedor del escáner no encontrado.");
+      return;
+    }
+
     try {
-      await BarcodeScanner.checkPermission({ force: true });
-      // Aquí especificamos que queremos usar la cámara trasera
-      await BarcodeScanner.startScan({ camera: "back" });
-  
-      const result = await BarcodeScanner.startScan();
-      if (result.hasContent && estudiantes[result.content]) {
-        setScannedCode(result.content);
-        const estudiante = estudiantes[result.content];
-        if (typeof estudiante === "object" && estudiante.enlace) {
-          setStudentData(
-            <div>
-              <p>Matricula: {estudiante.matricula}</p>
-              <p>Nombre: {estudiante.nombre}</p>
-              <p>Grupo: {estudiante.grupo}</p>
-              <p>Semestre: {estudiante.semestre}</p>
-              <a href={estudiante.enlace} target="_blank" rel="noopener noreferrer">
-                Ver más detalles
-              </a>
-            </div>
-          );
-        } else {
-          setStudentData(<p>{estudiante}</p>);
+      const html5QrCode = new Html5Qrcode(scannerRef.current.id);
+      await html5QrCode.start(
+        { facingMode: "environment" }, // Usar cámara trasera
+        { fps: 10, qrbox: { width: 250, height: 250 } }, // Configuración del escáner
+        (decodedText) => {
+          const cleanedText = decodedText.trim(); // Limpia el texto escaneado
+          console.log("Texto escaneado:", cleanedText); // Registro de depuración
+          if (estudiantes[cleanedText]) {
+            const estudiante = estudiantes[cleanedText];
+            setScannedCode(cleanedText);
+
+            if (typeof estudiante === "object") {
+              setStudentData(
+                <div>
+                  <p>Matricula: {estudiante.matricula}</p>
+                  <p>Nombre: {estudiante.nombre}</p>
+                  <p>Grupo: {estudiante.grupo}</p>
+                  <p>Semestre: {estudiante.semestre}</p>
+                  <a
+                    href={estudiante.enlace}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Ver más detalles
+                  </a>
+                </div>
+              );
+            } else {
+              setStudentData(<p>{estudiante}</p>);
+            }
+
+            setScannedData((prevData) => [
+              ...prevData,
+              {
+                matricula: estudiante.matricula || cleanedText,
+                nombreCompleto: estudiante.nombre || estudiante,
+                grupo: estudiante.grupo || "N/A",
+                semestre: estudiante.semestre || "N/A",
+                asistencia: "Presente",
+                fecha: new Date().toLocaleDateString(),
+              },
+            ]);
+          } else {
+            setError(`Código escaneado (${cleanedText}) no encontrado.`);
+            setStudentData(<p>Estudiante no encontrado</p>);
+          }
+        },
+        (error) => {
+          console.warn(`Error al escanear: ${error}`);
         }
-        setScannedData((prevData) => [
-          ...prevData,
-          {
-            matricula: estudiante.matricula || estudiante,
-            nombreCompleto: estudiante.nombre || estudiante,
-            grupo: estudiante.grupo || estudiante,
-            semestre: estudiante.semestre || estudiante,
-            asistencia: "Presente",
-            fecha: new Date().toLocaleDateString(),
-          },
-        ]);
-      } else {
-        setStudentData(<p>Estudiante no encontrado</p>);
-      }
+      );
     } catch (err) {
-      setError("Error al escanear el código");
-    } finally {
-      BarcodeScanner.showBackground();
-      BarcodeScanner.stopScan();
+      setError("Error al iniciar el escáner.");
+    }
+  };
+
+  const stopScan = async () => {
+    try {
+      const html5QrCode = new Html5Qrcode(scannerRef.current.id);
+      await html5QrCode.stop();
+    } catch (err) {
+      console.error("Error al detener el escáner:", err);
     }
   };
 
@@ -132,45 +158,33 @@ const PaseLista = () => {
   };
 
   return (
-<div className="pase-lista-page bg-gray-100 min-h-screen flex flex-col items-center justify-center">
-  <header className="header text-3xl font-semibold text-gray-800 mb-6">
-    Pase Lista
-  </header>
-  <main className="content bg-white p-6 rounded-lg shadow-lg w-96">
-    <p className="text-lg text-gray-700 mb-4">Escanear código</p>
-    <button 
-      onClick={startScan} 
-      className="btn w-full px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200 mb-4"
-    >
+<div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">
+  <header className="text-2xl font-bold text-gray-800 mt-12">Pase Lista</header>
+  <main className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg mt-8 text-center">
+    <p className="text-lg text-gray-600 mb-6">Escanear código</p>
+
+    <button onClick={startScan} className="w-full bg-blue-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-blue-600 transition duration-300">
       Escanear código
     </button>
-    
-    {studentData && (
-      <div className="bg-green-100 text-green-700 p-4 rounded-lg mb-4">
-        {studentData}
-      </div>
-    )}
-    
-    {error && <p className="error text-red-500 text-center mb-4">{error}</p>}
 
-    <button 
-      onClick={guardarAsistencia} 
-      className="btn w-full px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-200 mb-4"
-    >
+    <button onClick={stopScan} className="w-full bg-red-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-red-600 transition duration-300">
+      Detener escáner
+    </button>
+
+    <div id="scanner-container" ref={scannerRef} className="w-full bg-gray-200 rounded-lg h-64 mb-6"></div>
+
+    {studentData && <div className="bg-green-100 text-green-800 p-4 rounded-lg shadow-md mb-4">{studentData}</div>}
+    {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+
+    <button onClick={guardarAsistencia} className="w-full bg-yellow-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-yellow-600 transition duration-300">
       Guardar Asistencia
     </button>
 
-    <button 
-      onClick={descargarAsistencia} 
-      className="btn w-full px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition duration-200 mb-4"
-    >
+    <button onClick={descargarAsistencia} className="w-full bg-green-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-green-600 transition duration-300">
       Descargar Asistencia
     </button>
 
-    <button 
-      onClick={inicio} 
-      className="btn w-full px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
-    >
+    <button className="w-full bg-indigo-500 text-white font-semibold py-3 rounded-lg hover:bg-indigo-600 transition duration-300" onClick={inicio}>
       Inicio
     </button>
   </main>
