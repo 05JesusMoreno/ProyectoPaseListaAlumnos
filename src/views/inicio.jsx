@@ -12,21 +12,23 @@ const PaseLista = () => {
   const navigate = useNavigate();
 
   const estudiantes = {
-    "22413070090141": "AMADOR BAUTISTA JORGE ALEJANDRO",
-    "22413070090209": "AMADOR SAN JUAN IRIS YELEINE",
-    "22413070090199": {
+    22413070090141: "AMADOR BAUTISTA JORGE ALEJANDRO",
+    22413070090209: "AMADOR SAN JUAN IRIS YELEINE",
+    22413070090199: {
       matricula: "22413070090199",
       nombre: "CRUZ BAUTISTA YUSMAR",
       semestre: "5",
       grupo: "I",
-      enlace: "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=ZlE5ckdvRGJZdDhmdi84MEYrOW1Xdz09",
+      enlace:
+        "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=ZlE5ckdvRGJZdDhmdi84MEYrOW1Xdz09",
     },
-    "22413070090281": {
+    22413070090281: {
       matricula: "22413070090281",
       nombre: "CORTEZ DE LA CRUZ JORGE EDUARDO",
       semestre: "5",
       grupo: "I",
-      enlace: "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=TElHaE1NZ1daYnN6OWZQVjFGY2VJZz09",
+      enlace:
+        "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=TElHaE1NZ1daYnN6OWZQVjFGY2VJZz09",
     },
   };
 
@@ -35,7 +37,7 @@ const PaseLista = () => {
       setError("Contenedor del escáner no encontrado.");
       return;
     }
-  
+
     try {
       const html5QrCode = new Html5Qrcode(scannerRef.current.id);
       await html5QrCode.start(
@@ -44,10 +46,10 @@ const PaseLista = () => {
         (decodedText) => {
           const cleanedText = decodedText.trim(); // Limpia el texto escaneado
           console.log("Texto escaneado:", cleanedText); // Registro de depuración
-  
+
           // Verificar si el código escaneado es un enlace
           let estudiante = null;
-  
+
           // Buscar por código de matrícula si es un número
           if (estudiantes[cleanedText]) {
             estudiante = estudiantes[cleanedText];
@@ -63,11 +65,11 @@ const PaseLista = () => {
               }
             }
           }
-  
+
           if (estudiante) {
             console.log("Estudiante encontrado:", estudiante); // Registro de depuración
             setScannedCode(cleanedText);
-  
+
             if (typeof estudiante === "object") {
               setStudentData(
                 <div>
@@ -87,7 +89,7 @@ const PaseLista = () => {
             } else {
               setStudentData(<p>{estudiante}</p>);
             }
-  
+
             setScannedData((prevData) => [
               ...prevData,
               {
@@ -99,7 +101,7 @@ const PaseLista = () => {
                 fecha: new Date().toLocaleDateString(),
               },
             ]);
-  
+
             setError(null); // Limpiar errores si todo fue bien
           } else {
             console.warn("Código no encontrado en la lista:", cleanedText);
@@ -115,7 +117,6 @@ const PaseLista = () => {
       setError("Error al iniciar el escáner.");
     }
   };
-  
 
   const stopScan = async () => {
     try {
@@ -182,38 +183,63 @@ const PaseLista = () => {
   };
 
   return (
-<div className="flex flex-col items-center min-h-screen bg-gray-50 p-4">
-  <header className="text-3xl font-bold text-gray-800 mt-12">Pase Lista</header>
-  <main className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg mt-8 text-center">
-    <p className="text-lg text-gray-600 mb-6">Escanear código</p>
+    <div className="flex flex-col items-center min-h-screen bg-gray-50 p-4">
+      <header className="text-3xl font-bold text-gray-800 mt-12">
+        Pase Lista
+      </header>
+      <main className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg mt-8 text-center">
+        <p className="text-lg text-gray-600 mb-6">Escanear código</p>
 
-    <button onClick={startScan} className="w-full bg-blue-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-blue-600 transition duration-300">
-      Escanear código
-    </button>
+        <button
+          onClick={startScan}
+          className="w-full bg-blue-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-blue-600 transition duration-300"
+        >
+          Escanear código
+        </button>
 
-    <button onClick={stopScan} className="w-full bg-red-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-red-600 transition duration-300">
-      Detener escáner
-    </button>
+        <button
+          onClick={stopScan}
+          className="w-full bg-red-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-red-600 transition duration-300"
+        >
+          Detener escáner
+        </button>
 
-    <div id="scanner-container" ref={scannerRef} className="w-full bg-gray-200 rounded-lg h-64 mb-6"></div>
+        <div
+          id="scanner-container"
+          ref={scannerRef}
+          className="w-full bg-gray-200 rounded-lg h-64 mb-6"
+        ></div>
 
-    {studentData && <div className="bg-green-100 text-green-800 p-4 rounded-lg shadow-md mb-4">{studentData}</div>}
-    {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+        {studentData && (
+          <div className="bg-green-100 text-green-800 p-4 rounded-lg shadow-md mb-4 mt-64">
+            {studentData}
+          </div>
+        )}
+        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
-    <button onClick={guardarAsistencia} className="w-full bg-yellow-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-yellow-600 transition duration-300">
-      Guardar Asistencia
-    </button>
+        <button
+          onClick={guardarAsistencia}
+          className="w-full bg-yellow-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-yellow-600 transition duration-300"
+        >
+          Guardar Asistencia
+        </button>
 
-    <button onClick={descargarAsistencia} className="w-full bg-green-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-green-600 transition duration-300">
-      Descargar Asistencia
-    </button>
+        <button
+          onClick={descargarAsistencia}
+          className="w-full bg-green-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-green-600 transition duration-300"
+        >
+          Descargar Asistencia
+        </button>
 
-    <button onClick={inicio} className="w-full bg-indigo-500 text-white font-semibold py-3 rounded-lg hover:bg-indigo-600 transition duration-300">
-      Inicio
-    </button>
-  </main>
-</div>
+        <button
+          onClick={inicio}
+          className="w-full bg-indigo-500 text-white font-semibold py-3 rounded-lg hover:bg-indigo-600 transition duration-300"
+        >
+          Inicio
+        </button>
+      </main>
+    </div>
   );
 };
 
-export default PaseLista;
+export default PaseLista;
