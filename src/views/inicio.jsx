@@ -32,6 +32,9 @@ const PaseLista = () => {
   const startScan = async () => {
     try {
       await BarcodeScanner.checkPermission({ force: true });
+      // Aquí especificamos que queremos usar la cámara trasera
+      await BarcodeScanner.startScan({ camera: "back" });
+  
       const result = await BarcodeScanner.startScan();
       if (result.hasContent && estudiantes[result.content]) {
         setScannedCode(result.content);
