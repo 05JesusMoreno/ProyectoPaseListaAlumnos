@@ -219,7 +219,7 @@ const PaseLista = () => {
 
         <button
           onClick={guardarAsistencia}
-          className="w-full bg-yellow-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-yellow-600 transition duration-300"
+          className="w-full bg-yellow-500 text-white font-semibold py-8 rounded-lg mb-4 hover:bg-yellow-600 transition duration-300"
         >
           Guardar Asistencia
         </button>
