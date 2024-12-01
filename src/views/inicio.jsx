@@ -202,13 +202,11 @@ const PaseLista = () => {
           Detener escáner
         </button> */}
 
-        {/* Contenedor del escáner, ajustado para un mejor tamaño */}
         <div
           id="scanner-container"
           ref={scannerRef}
           className="w-full bg-gray-200 rounded-lg h-80 mb-6 mt-8" // Mayor altura para el escáner
         >
-          {/* Aquí se mostraría el escáner si está habilitado */}
         </div>
 
         {studentData && (
