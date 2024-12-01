@@ -195,18 +195,18 @@ const PaseLista = () => {
           Escanear código
         </button>
 
-        <button
+{/*         <button
           onClick={stopScan}
           className="w-full bg-red-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-red-600 transition duration-300"
         >
           Detener escáner
-        </button>
+        </button> */}
 
         {/* Contenedor del escáner, ajustado para un mejor tamaño */}
         <div
           id="scanner-container"
           ref={scannerRef}
-          className="w-full bg-gray-200 rounded-lg h-96 mb-6 mt-8" // Mayor altura para el escáner
+          className="w-full bg-gray-200 rounded-lg h-80 mb-6 mt-8" // Mayor altura para el escáner
         >
           {/* Aquí se mostraría el escáner si está habilitado */}
         </div>
