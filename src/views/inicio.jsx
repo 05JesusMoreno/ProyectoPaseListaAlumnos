@@ -214,19 +214,19 @@ const PaseLista = () => {
     </div>
 
     {studentData && (
-      <div className="bg-green-100 text-green-800 p-4 rounded-lg shadow-md mb-4">
+      <div className="bg-green-100 text-green-800 p-4 rounded-lg shadow-md mb-4 mt-32">
         {studentData}
       </div>
     )}
 
     {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
-    <button
+{/*     <button
       onClick={guardarAsistencia}
       className="w-full bg-yellow-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-yellow-600 transition duration-300"
     >
       Guardar Asistencia
-    </button>
+    </button> */}
 
     <button
       onClick={descargarAsistencia}
