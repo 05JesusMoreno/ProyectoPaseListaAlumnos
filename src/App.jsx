@@ -1,12 +1,15 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import Inicio from "./views/inicio";
+
+
+
 
 function App() {
-  const [count, setCount] = useState(0);
+
 
   return (
+<<<<<<< HEAD
     <>
 <<<<<<< HEAD
       <div>
@@ -21,6 +24,13 @@ function App() {
       </div>
 >>>>>>> ab0ad0f29b655945d5703bc4b6470cc32b6c6136
     </>
+=======
+    <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Inicio />} />
+        </Routes>
+    </BrowserRouter>
+>>>>>>> 6eafea779a3f904de43c30c98143743532244564
   );
 }
 
