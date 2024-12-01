@@ -32,10 +32,6 @@ const PaseLista = () => {
   const startScan = async () => {
     try {
       await BarcodeScanner.checkPermission({ force: true });
-
-      // Establece la cámara trasera
-      await BarcodeScanner.setCamera({ camera: "rear" });  // Esto puede variar dependiendo de la configuración del plugin
-
       const result = await BarcodeScanner.startScan();
       if (result.hasContent && estudiantes[result.content]) {
         setScannedCode(result.content);
@@ -133,50 +129,50 @@ const PaseLista = () => {
   };
 
   return (
-    <div className="pase-lista-page bg-gray-100 min-h-screen flex flex-col items-center justify-center">
-      <header className="header text-3xl font-semibold text-gray-800 mb-6">
-        Pase Lista
-      </header>
-      <main className="content bg-white p-6 rounded-lg shadow-lg w-96">
-        <p className="text-lg text-gray-700 mb-4">Escanear código</p>
-        <button 
-          onClick={startScan} 
-          className="btn w-full px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200 mb-4"
-        >
-          Escanear código
-        </button>
-        
-        {studentData && (
-          <div className="bg-green-100 text-green-700 p-4 rounded-lg mb-4">
-            {studentData}
-          </div>
-        )}
-        
-        {error && <p className="error text-red-500 text-center mb-4">{error}</p>}
+<div className="pase-lista-page bg-gray-100 min-h-screen flex flex-col items-center justify-center">
+  <header className="header text-3xl font-semibold text-gray-800 mb-6">
+    Pase Lista
+  </header>
+  <main className="content bg-white p-6 rounded-lg shadow-lg w-96">
+    <p className="text-lg text-gray-700 mb-4">Escanear código</p>
+    <button 
+      onClick={startScan} 
+      className="btn w-full px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200 mb-4"
+    >
+      Escanear código
+    </button>
+    
+    {studentData && (
+      <div className="bg-green-100 text-green-700 p-4 rounded-lg mb-4">
+        {studentData}
+      </div>
+    )}
+    
+    {error && <p className="error text-red-500 text-center mb-4">{error}</p>}
 
-        <button 
-          onClick={guardarAsistencia} 
-          className="btn w-full px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-200 mb-4"
-        >
-          Guardar Asistencia
-        </button>
+    <button 
+      onClick={guardarAsistencia} 
+      className="btn w-full px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-200 mb-4"
+    >
+      Guardar Asistencia
+    </button>
 
-        <button 
-          onClick={descargarAsistencia} 
-          className="btn w-full px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition duration-200 mb-4"
-        >
-          Descargar Asistencia
-        </button>
+    <button 
+      onClick={descargarAsistencia} 
+      className="btn w-full px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition duration-200 mb-4"
+    >
+      Descargar Asistencia
+    </button>
 
-        <button 
-          onClick={inicio} 
-          className="btn w-full px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
-        >
-          Inicio
-        </button>
-      </main>
-    </div>
+    <button 
+      onClick={inicio} 
+      className="btn w-full px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
+    >
+      Inicio
+    </button>
+  </main>
+</div>
   );
 };
 
-export default PaseLista;
+export default PaseLista;
