@@ -42,7 +42,7 @@ const PaseLista = () => {
       const html5QrCode = new Html5Qrcode(scannerRef.current.id);
       await html5QrCode.start(
         { facingMode: "environment" }, // Usar cámara trasera
-        { fps: 10, qrbox: { width: 250, height: 250 } }, // Configuración del escáner
+        { fps: 10, qrbox: { width: 300, height: 300 } }, // Configuración del escáner
         (decodedText) => {
           const cleanedText = decodedText.trim(); // Limpia el texto escaneado
           console.log("Texto escaneado:", cleanedText); // Registro de depuración
@@ -183,66 +183,64 @@ const PaseLista = () => {
   };
 
   return (
-<div className="flex flex-col items-center min-h-screen bg-gray-50 p-4">
-  <header className="text-3xl font-bold text-gray-800 mt-12">
-    Pase Lista
-  </header>
-  <main className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg mt-8 text-center relative">
-    <p className="text-lg text-gray-600 mb-6">Escanear código</p>
+    <div className="flex flex-col items-center min-h-screen bg-gray-50 p-4">
+      <header className="text-3xl font-bold text-gray-800 mt-12">Pase Lista</header>
+      <main className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg mt-8 text-center relative">
+        <p className="text-lg text-gray-600 mb-6">Escanear código</p>
 
-    <button
-      onClick={startScan}
-      className="w-full bg-blue-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-blue-600 transition duration-300"
-    >
-      Escanear código
-    </button>
+        <button
+          onClick={startScan}
+          className="w-full bg-blue-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-blue-600 transition duration-300"
+        >
+          Escanear código
+        </button>
 
-    <button
-      onClick={stopScan}
-      className="w-full bg-red-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-red-600 transition duration-300"
-    >
-      Detener escáner
-    </button>
+        <button
+          onClick={stopScan}
+          className="w-full bg-red-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-red-600 transition duration-300"
+        >
+          Detener escáner
+        </button>
 
-    {/* Contenedor del escáner, pero ajustado para no tapar otros elementos */}
-    <div
-      id="scanner-container"
-      ref={scannerRef}
-      className="w-full bg-gray-200 rounded-lg h-64 mb-6 mt-8"
-    >
-      {/* Aquí se mostraría el escáner si está habilitado */}
+        {/* Contenedor del escáner, ajustado para un mejor tamaño */}
+        <div
+          id="scanner-container"
+          ref={scannerRef}
+          className="w-full bg-gray-200 rounded-lg h-96 mb-6 mt-8" // Mayor altura para el escáner
+        >
+          {/* Aquí se mostraría el escáner si está habilitado */}
+        </div>
+
+        {studentData && (
+          <div className="bg-green-100 text-green-800 p-4 rounded-lg shadow-md mb-4">
+            {studentData}
+          </div>
+        )}
+
+        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+
+        <button
+          onClick={guardarAsistencia}
+          className="w-full bg-yellow-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-yellow-600 transition duration-300"
+        >
+          Guardar Asistencia
+        </button>
+
+        <button
+          onClick={descargarAsistencia}
+          className="w-full bg-green-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-green-600 transition duration-300"
+        >
+          Descargar Asistencia
+        </button>
+
+        <button
+          onClick={inicio}
+          className="w-full bg-indigo-500 text-white font-semibold py-3 rounded-lg hover:bg-indigo-600 transition duration-300"
+        >
+          Inicio
+        </button>
+      </main>
     </div>
-
-    {studentData && (
-      <div className="bg-green-100 text-green-800 p-4 rounded-lg shadow-md mb-4 mt-32">
-        {studentData}
-      </div>
-    )}
-
-    {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-
-{/*     <button
-      onClick={guardarAsistencia}
-      className="w-full bg-yellow-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-yellow-600 transition duration-300"
-    >
-      Guardar Asistencia
-    </button> */}
-
-    <button
-      onClick={descargarAsistencia}
-      className="w-full bg-green-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-green-600 transition duration-300"
-    >
-      Descargar Asistencia
-    </button>
-
-    <button
-      onClick={inicio}
-      className="w-full bg-indigo-500 text-white font-semibold py-3 rounded-lg hover:bg-indigo-600 transition duration-300"
-    >
-      Inicio
-    </button>
-  </main>
-</div>
   );
 };
 
