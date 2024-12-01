@@ -103,6 +103,9 @@ const PaseLista = () => {
             ]);
 
             setError(null); // Limpiar errores si todo fue bien
+
+            // Detener el escáner después de encontrar el código
+            stopScan();
           } else {
             console.warn("Código no encontrado en la lista:", cleanedText);
             setError(`Código escaneado (${cleanedText}) no encontrado.`);
@@ -195,17 +198,17 @@ const PaseLista = () => {
           Escanear código
         </button>
 
-{/*         <button
+        <button
           onClick={stopScan}
           className="w-full bg-red-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-red-600 transition duration-300"
         >
           Detener escáner
-        </button> */}
+        </button>
 
         <div
           id="scanner-container"
           ref={scannerRef}
-          className="w-full bg-gray-200 rounded-lg h-80 mb-6 mt-8" // Mayor altura para el escáner
+          className="w-full bg-gray-200 rounded-lg h-96 mb-6 mt-8" 
         >
         </div>
 
@@ -233,9 +236,9 @@ const PaseLista = () => {
 
         <button
           onClick={inicio}
-          className="w-full bg-indigo-500 text-white font-semibold py-3 rounded-lg hover:bg-indigo-600 transition duration-300"
+          className="w-full bg-gray-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-gray-600 transition duration-300"
         >
-          Inicio
+          Regresar al Inicio
         </button>
       </main>
     </div>
