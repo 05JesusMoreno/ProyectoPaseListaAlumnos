@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { Html5Qrcode } from "html5-qrcode";
 import ExcelJS from "exceljs";
 import { useNavigate } from "react-router-dom";
+import Header from "../components/header";
 
 const PaseLista = () => {
   const [scannedCode, setScannedCode] = useState(null);
@@ -410,7 +411,9 @@ const PaseLista = () => {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-50 p-4">
+    
+    <div className="flex flex-col items-center min-h-screen bg-gray-50 ">
+      <Header />
       <header className="text-3xl font-bold text-gray-800 mt-12">Pase Lista</header>
       <main className="bg-white p-6 rounded-lg shadow-lg w-full sm:max-w-md md:max-w-lg mt-8 text-center relative">
         <p className="text-lg text-gray-600 mb-6">Escanear código</p>
