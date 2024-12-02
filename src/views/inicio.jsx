@@ -13,15 +13,61 @@ const PaseLista = () => {
   const navigate = useNavigate();
 
   const estudiantes = {
-    22413070090141: "AMADOR BAUTISTA JORGE ALEJANDRO",
-    22413070090209: "AMADOR SAN JUAN IRIS YELEINE",
-    22413070090199: {
-      matricula: "22413070090199",
-      nombre: "CRUZ BAUTISTA YUSMAR",
+    22413070090141: {
+      matricula: "22413070090141",
+      nombre: "AMADOR BAUTISTA JORGE ALEJANDRO",
       semestre: "5",
       grupo: "I",
       enlace:
-        "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=ZlE5ckdvRGJZdDhmdi84MEYrOW1Xdz09",
+        "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=V09YSndWR242MFVFanNxbzBpMEcyQT09",
+    },
+    22413070090209: {
+      matricula: "22413070090209",
+      nombre: "AMADOR SAN JUAN IRIS YELEINE",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+        "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=b3pjTWJnWGdkZkZBZm1RRHUvTlE2Zz09",
+    },
+    22413070090172: {
+      matricula: "22413070090172",
+      nombre: "BAUTISTA BAUTISTA IKER",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+        "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=N2VQUG45OTdJcjcyZ2dvZnJjelp6Zz09",
+    },
+    22413070090151: {
+      matricula: "22413070090151",
+      nombre: "BAUTISTA MERIDA EMMANUEL",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+        "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=dDVTWDlvaEFXaHlDUHhEcFlCOFNDZz09",
+    },
+    22413070090176: {
+      matricula: "22413070090176",
+      nombre: "BAUTISTA NOCHEBUENA DEYSI GUADALUPE",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+        "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=WDR5V1cxUlEyb3kvTHlhZHFRME9pQT09",
+    },
+    22413070090201: {
+      matricula: "22413070090201",
+      nombre: "BAUTISTA SANTIAGO HIVAN",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+        "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=K0pwSmxGRm9mak5vMkdvZHU0aWg2UT09",
+    },
+    22413070090002: {
+      matricula: "22413070090002",
+      nombre: "CASTELLANOS NARANJO SAMANTHA YOULETEE",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+        "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=NHdVeW5JU3dkQWEwNHU2UVZQWmZpUT09",
     },
     22413070090281: {
       matricula: "22413070090281",
@@ -30,6 +76,174 @@ const PaseLista = () => {
       grupo: "I",
       enlace:
         "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=TElHaE1NZ1daYnN6OWZQVjFGY2VJZz09",
+    },
+    22413070090199: {
+      matricula: "22413070090199",
+      nombre: "CRUZ BAUTISTA YUSMAR",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+        "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=ZlE5ckdvRGJZdDhmdi84MEYrOW1Xdz09",
+    },
+    22413070090088: {
+      matricula: " 22413070090334",
+      nombre: " FERNANDEZ FERNANDEZ FERNANDA JOANNA",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+      " http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=Uk5rWWhkS3IyOVc5elZER2tjdjZyZz09",
+    },
+    22413070090317: {
+      matricula: "22413070090317",
+      nombre: "FLORES MANILLA ALBERTO",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+        "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=L0dMTG5JMGppNEhWSWt5SWcxcUR6Zz09",
+    },
+    22413070090042: {
+      matricula: "22413070090042",
+      nombre: "FLORES VELAZQUEZ JIMMY",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+        "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=VW1NaUVKV084MUpVQlFKc1ZRNHhOQT09",
+    },
+    224130700900868: {
+      matricula: "22413070090368",
+      nombre: "HERNANDEZ BALTAZAR MISAEL",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+     "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=a1c5cWVZSzRiOFUyQ3FScVdFblp6UT09",
+    },
+    22413070090080: {
+      matricula: "22413070090080",
+      nombre: "HERNANDEZ DE LA CRUZ RONALDO",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+     "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=azZKaFBZc1VmOUpMc2JjcHd1RVNlQT09",
+    },
+    22413070090343: {
+      matricula: "22413070090343 ",
+      nombre: "HERNANDEZ DIEGO YARELI GUADALUPE",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+        "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=cmNvT0c2d1BXRzRnazdJSWhJcEg4QT09",
+    },
+    22413070090403: {
+      matricula: "22413070090403",
+      nombre: "HERNANDEZ HERNANDEZ OSCAR",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+        "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=SWQwYXgyR3IxQTJ4UlBuY2EwV2VRUT09",
+    },
+    22413070090162: {
+      matricula: "22413070090162",
+      nombre: "HERNANDEZ HERNANDEZ YAHIR",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+        "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=SWtOVnVyeHNVQ3RialBQTm11T2h1UT09",
+    },
+    20413070090206: {
+      matricula: "22413070090206",
+      nombre: " HERNANDEZ LOPEZ DIANA",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+      "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=UHNyOUE3RzQwV09sNmpxajF0M20vZz09",
+  },
+    19413070090138: {
+      matricula: "19413070090138",
+      nombre: "MARTINEZ HERNANDEZ ELI JARED",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+        "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=aVVSRDY5andna3JLQVVCb2hDN2lDQT09",
+    },     
+    21413070090103: {
+      matricula: "21413070090103",
+      nombre: "ORDAZ HERNANDEZ VALENTIN",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+        "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=UkJaZzEzKzNUUXNPUGJOZnZ5b1BSdz09",
+    },
+    22413070090344: {
+      matricula: "22413070090344",
+      nombre: "RAMON DIEGO JUAN DE JESUS ",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+      "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=ZTd6eStMTmxCSmF0QmhjejJnRFRCQT09",
+    },
+    22413070090207: {
+      matricula: "22413070090207",
+      nombre: "REYEZ HERNADEZ JOEL ARMANDO",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+        "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=aWFwdzZzcy96WUIrbDZBUzV2bHI0QT09",
+    },
+    22413070090232: {
+      matricula: "22413070090232",
+      nombre: "RIVERA HERNANDEZ ZAIRA",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+        "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=ZDdOcHVXMTVWWVMvek5LSVNIVzVsdz09",
+    },
+    22413070090125: {
+      matricula: "22413070090125",
+      nombre: "RODRIGUEZ CASTELLANOS YAEL JUSTINO",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+      "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=QjFPYVJQWFNnZENFNkRyenpvdEJ1QT09",
+    },
+    22413070090261: {
+      matricula: "22413070090261",
+      nombre: "SAN JUAN HERNANDEZ CARLOS DANIEL",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+        "https://www.cecyteh.edu.mx/consulta_alumno/index.php?id=WkpUaDNGdUNwNjZPdkZhYk5TZ1NVZz09",
+    },
+    22413070090088: {
+      matricula: "22413070090088",
+      nombre: "SANCHEZ FLORES JESUS ALBERTO",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+        "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=bi82ZDhRQjhWTDJZbGhkSzdrUHUrdz09",
+    },
+    22413070090295: {
+      matricula: "22413070090295",
+      nombre: "SAN JUAN RUIZ MARELY",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+        "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=a0NPQ3hqckR4Qk5tSGRnS2dWMmN6Zz09",
+    },
+    21413070090417: {
+      matricula: "21413070090417",
+      nombre: "TORRES CRUZ ABRAHAM",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+      "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=UWJRbVdleE1oNHV0dk1ISTlEeGthZz09",
+    },
+    22413070090356: {
+      matricula: "22413070090356",
+      nombre: "ZAVALA ZAVALA ALVARO JESUS",
+      semestre: "5",
+      grupo: "I",
+      enlace:
+        "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=SWhlTWJCWjh4SXZhN2VJdzdOVWxaZz09",
     },
   };
 
@@ -242,12 +456,6 @@ const PaseLista = () => {
             Descargar Asistencia
           </button>
 
-          <button
-            onClick={inicio}
-            className="w-full bg-red-500 text-white font-semibold py-3 rounded-lg hover:bg-red-600 transition duration-300"
-          >
-            Ir al Inicio
-          </button>
         </div>
       </main>
     </div>
