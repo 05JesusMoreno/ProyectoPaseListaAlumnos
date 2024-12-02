@@ -211,7 +211,7 @@ const PaseLista = () => {
       semestre: "5",
       grupo: "I",
       enlace:
-        "https://www.cecyteh.edu.mx/consulta_alumno/index.php?id=WkpUaDNGdUNwNjZPdkZhYk5TZ1NVZz09",
+        "http://www.cecyteh.edu.mx/consulta_alumno/index.php?id=WkpUaDNGdUNwNjZPdkZhYk5TZ1NVZz09",
     },
     22413070090088: {
       matricula: "22413070090088",
