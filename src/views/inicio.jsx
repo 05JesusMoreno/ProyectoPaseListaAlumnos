@@ -8,7 +8,8 @@ const PaseLista = () => {
   const [studentData, setStudentData] = useState(null);
   const [error, setError] = useState(null);
   const [scannedData, setScannedData] = useState([]);
-  const scannerRef = useRef(null); // Referencia para el contenedor del escáner
+  const [isScanning, setIsScanning] = useState(false);
+  const scannerRef = useRef(null);
   const navigate = useNavigate();
 
   const estudiantes = {
@@ -38,23 +39,26 @@ const PaseLista = () => {
       return;
     }
 
+    if (isScanning) {
+      return;
+    }
+
+    setIsScanning(true);
+
     try {
       const html5QrCode = new Html5Qrcode(scannerRef.current.id);
       await html5QrCode.start(
-        { facingMode: "environment" }, // Usar cámara trasera
-        { fps: 10, qrbox: { width: 300, height: 300 } }, // Configuración del escáner
+        { facingMode: "environment" },
+        { fps: 10, qrbox: { width: 300, height: 300 } },
         (decodedText) => {
-          const cleanedText = decodedText.trim(); // Limpia el texto escaneado
-          console.log("Texto escaneado:", cleanedText); // Registro de depuración
+          const cleanedText = decodedText.trim();
+          console.log("Texto escaneado:", cleanedText);
 
-          // Verificar si el código escaneado es un enlace
           let estudiante = null;
 
-          // Buscar por código de matrícula si es un número
           if (estudiantes[cleanedText]) {
             estudiante = estudiantes[cleanedText];
           } else {
-            // Buscar por enlace si es una URL
             for (let matricula in estudiantes) {
               if (
                 typeof estudiantes[matricula] === "object" &&
@@ -67,8 +71,9 @@ const PaseLista = () => {
           }
 
           if (estudiante) {
-            console.log("Estudiante encontrado:", estudiante); // Registro de depuración
             setScannedCode(cleanedText);
+
+            const hora = new Date().toLocaleTimeString(); // Obtener la hora actual
 
             if (typeof estudiante === "object") {
               setStudentData(
@@ -77,6 +82,7 @@ const PaseLista = () => {
                   <p>Nombre: {estudiante.nombre}</p>
                   <p>Grupo: {estudiante.grupo}</p>
                   <p>Semestre: {estudiante.semestre}</p>
+                  <p>Hora: {hora}</p> {/* Mostrar la hora */}
                   <a
                     href={estudiante.enlace}
                     target="_blank"
@@ -99,14 +105,18 @@ const PaseLista = () => {
                 semestre: estudiante.semestre || "N/A",
                 asistencia: "Presente",
                 fecha: new Date().toLocaleDateString(),
+                hora: hora, // Guardar la hora de la asistencia
               },
             ]);
 
-            setError(null); // Limpiar errores si todo fue bien
+            setError(null);
+            html5QrCode.stop();
+            setIsScanning(false);
           } else {
-            console.warn("Código no encontrado en la lista:", cleanedText);
             setError(`Código escaneado (${cleanedText}) no encontrado.`);
             setStudentData(<p>Estudiante no encontrado</p>);
+            html5QrCode.stop();
+            setIsScanning(false);
           }
         },
         (error) => {
@@ -115,6 +125,7 @@ const PaseLista = () => {
       );
     } catch (err) {
       setError("Error al iniciar el escáner.");
+      setIsScanning(false);
     }
   };
 
@@ -122,6 +133,7 @@ const PaseLista = () => {
     try {
       const html5QrCode = new Html5Qrcode(scannerRef.current.id);
       await html5QrCode.stop();
+      setIsScanning(false);
     } catch (err) {
       console.error("Error al detener el escáner:", err);
     }
@@ -154,6 +166,7 @@ const PaseLista = () => {
         { header: "Semestre", key: "semestre" },
         { header: "Asistencia", key: "asistencia" },
         { header: "Fecha", key: "fecha" },
+        { header: "Hora", key: "hora" }, // Añadir columna de hora
       ];
 
       scannedData.forEach((item) => {
@@ -185,58 +198,57 @@ const PaseLista = () => {
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-50 p-4">
       <header className="text-3xl font-bold text-gray-800 mt-12">Pase Lista</header>
-      <main className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg mt-8 text-center relative">
+      <main className="bg-white p-6 rounded-lg shadow-lg w-full sm:max-w-md md:max-w-lg mt-8 text-center relative">
         <p className="text-lg text-gray-600 mb-6">Escanear código</p>
 
         <button
           onClick={startScan}
           className="w-full bg-blue-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-blue-600 transition duration-300"
+          disabled={isScanning}
         >
           Escanear código
-        </button>
-
-        <button
-          onClick={stopScan}
-          className="w-full bg-red-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-red-600 transition duration-300"
-        >
-          Detener escáner
         </button>
 
         <div
           id="scanner-container"
           ref={scannerRef}
-          className="w-full bg-gray-200 rounded-lg h-96 mb-6 mt-8" 
-        >
-        </div>
+          className="w-full bg-gray-200 rounded-lg h-96 mb-6 mt-8"
+        ></div>
 
         {studentData && (
-          <div className="bg-green-100 text-green-800 p-4 rounded-lg shadow-md mb-4">
+          <div className="bg-green-100 text-green-800 p-4 rounded-lg shadow-md mt-4">
             {studentData}
           </div>
         )}
 
-        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+        {error && (
+          <div className="bg-red-100 text-red-800 p-4 rounded-lg shadow-md mt-4">
+            {error}
+          </div>
+        )}
 
-        <button
-          onClick={guardarAsistencia}
-          className="w-full bg-yellow-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-yellow-600 transition duration-300 mt-6"
-        >
-          Guardar Asistencia
-        </button>
+        <div className="flex flex-col sm:flex-row justify-between gap-6 mt-8">
+          <button
+            onClick={guardarAsistencia}
+            className="w-full bg-green-500 text-white font-semibold py-3 rounded-lg hover:bg-green-600 transition duration-300 mb-4 sm:mb-0"
+          >
+            Guardar Asistencia
+          </button>
 
-        <button
-          onClick={descargarAsistencia}
-          className="w-full bg-green-500 text-white font-semibold py-3 rounded-lg mb-4 hover:bg-green-600 transition duration-300"
-        >
-          Descargar Asistencia
-        </button>
+          <button
+            onClick={descargarAsistencia}
+            className="w-full bg-yellow-500 text-white font-semibold py-3 rounded-lg hover:bg-yellow-600 transition duration-300 mb-4 sm:mb-0"
+          >
+            Descargar Asistencia
+          </button>
 
-        <button
-          onClick={inicio}
-          className="w-full bg-indigo-500 text-white font-semibold py-3 rounded-lg hover:bg-indigo-600 transition duration-300"
-        >
-          Inicio
-        </button>
+          <button
+            onClick={inicio}
+            className="w-full bg-red-500 text-white font-semibold py-3 rounded-lg hover:bg-red-600 transition duration-300"
+          >
+            Ir al Inicio
+          </button>
+        </div>
       </main>
     </div>
   );
